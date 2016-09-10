@@ -55,73 +55,100 @@ metadata {
 		reply "2502": "command: 2503, payload: FF"
 	}
 
-	tiles {
-		valueTile("temperature", "device.temperature", width: 2, height: 2) {
-			state("temperature", label:'${currentValue}°',
+	tiles(scale: 2) {
+		standardTile("temperature", "device.temperature", width: 4, height: 4) {
+			state("temperature", label:'${currentValue}°', icon:"st.Weather.weather2",
 				backgroundColors:[
-					[value: 32, color: "#153591"],
-					[value: 44, color: "#1e9cbb"],
-					[value: 59, color: "#90d2a7"],
-					[value: 74, color: "#44b621"],
-					[value: 84, color: "#f1d801"],
+					[value: 64, color: "#153591"],
+					[value: 66, color: "#1e9cbb"],
+					[value: 68, color: "#90d2a7"],
+					[value: 72, color: "#44b621"],
+					[value: 74, color: "#f1d801"],
 					[value: 92, color: "#d04e00"],
 					[value: 98, color: "#bc2323"]
 				]
 			)
 		}
-		standardTile("mode", "device.thermostatMode", inactiveLabel: false, decoration: "flat") {
-			state "off", label:'${name}', action:"switchMode", nextState:"to_heat"
-			state "heat", label:'${name}', action:"switchMode", nextState:"to_cool"
-			state "cool", label:'${name}', action:"switchMode", nextState:"..."
-			state "auto", label:'${name}', action:"switchMode", nextState:"..."
-			state "emergency heat", label:'${name}', action:"switchMode", nextState:"..."
+		standardTile("mode", "device.thermostatMode", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+			state "off", label:'Mode: ${name}', action:"switchMode", nextState:"to_heat"
+			state "heat", label:'Mode: ${name}', icon: "st.custom.wuk.clear", action:"switchMode", nextState:"to_cool"
+			state "cool", label:'Mode: ${name}', icon: "st.custom.wuk.chancesnow", action:"switchMode", nextState:"..."
+			state "auto", label:'Mode: ${name}', action:"switchMode", nextState:"..."
+			state "emergency heat", label:'Mode: ${name}', action:"switchMode", nextState:"..."
 			state "to_heat", label: "heat", action:"switchMode", nextState:"to_cool"
 			state "to_cool", label: "cool", action:"switchMode", nextState:"..."
 			state "...", label: "...", action:"off", nextState:"off"
 		}
-		standardTile("fanMode", "device.thermostatFanMode", inactiveLabel: false, decoration: "flat") {
-			state "fanAuto", label:'${name}', action:"switchFanMode"
-			state "fanOn", label:'${name}', action:"switchFanMode"
-			state "fanCirculate", label:'${name}', action:"switchFanMode"
+		standardTile("fanMode", "device.thermostatFanMode", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+			state "fanAuto", label:'', icon: "st.thermostat.fan-auto", action:"switchFanMode"
+			state "fanOn", label:'', icon: "st.thermostat.fan-on", action:"switchFanMode"
+			state "fanCirculate", label:'${name}', icon: "st.thermostat.fan-circulate", action:"switchFanMode"
 		}
 		controlTile("heatSliderControl", "device.heatingSetpoint", "slider", height: 1, width: 2, inactiveLabel: false) {
 			state "setHeatingSetpoint", action:"quickSetHeat", backgroundColor:"#d04e00"
 		}
-		valueTile("heatingSetpoint", "device.heatingSetpoint", inactiveLabel: false, decoration: "flat") {
-			state "heat", label:'${currentValue}° heat', backgroundColor:"#ffffff"
+		standardTile("heatingSetpoint", "device.heatingSetpoint", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+			state "heat", label:'${currentValue}° heat', icon: "st.custom.wuk.clear", backgroundColor:"#ffffff"
 		}
 		controlTile("coolSliderControl", "device.coolingSetpoint", "slider", height: 1, width: 2, inactiveLabel: false) {
 			state "setCoolingSetpoint", action:"quickSetCool", backgroundColor: "#1e9cbb"
 		}
-		valueTile("coolingSetpoint", "device.coolingSetpoint", inactiveLabel: false, decoration: "flat") {
-			state "cool", label:'${currentValue}° cool', backgroundColor:"#ffffff"
+		standardTile("coolingSetpoint", "device.coolingSetpoint", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+			state "cool", label:'${currentValue}° cool', icon: "st.custom.wuk.chancesnow", backgroundColor:"#ffffff"
 		}
-		valueTile("humidity", "device.humidity", inactiveLabel: false, decoration: "flat") {
-			state "humidity", label:'${currentValue}% humidity', unit:""
+		standardTile("humidity", "device.humidity", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+			state "humidity", label:'${currentValue}% humidity', unit:"", icon:"st.samsung.da.RAC_4line_02_ic_dry"
 		}
-		valueTile("battery", "device.battery", inactiveLabel: false, decoration: "flat") {
+		valueTile("battery", "device.battery", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
 			state "battery", label:'${currentValue}% battery', unit:""
 		}
-		standardTile("refresh", "device.thermostatMode", inactiveLabel: false, decoration: "flat") {
+		standardTile("refresh", "device.thermostatMode", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
 			state "default", action:"refresh.refresh", icon:"st.secondary.refresh"
 		}
-		standardTile("coolUp", "device.coolingSetpoint", inactiveLabel: false, decoration: "flat") {
-			state "cool", label:'Cool +', action:"coolUp"
+		standardTile("coolUp", "device.coolingSetpoint", inactiveLabel: false, decoration: "flat", height: 1, width: 1) {
+			state "cool", label:'', action:"coolUp", icon: "st.thermostat.thermostat-up", backgroundColor:"#d04e00"
 		}
-		standardTile("coolDown", "device.coolingSetpoint", inactiveLabel: false, decoration: "flat") {
-			state "cool", label:'Cool -', action:"coolDown"
+		standardTile("coolDown", "device.coolingSetpoint", inactiveLabel: false, decoration: "flat", height: 1, width: 1) {
+			state "cool", label:'', action:"coolDown", icon: "st.thermostat.thermostat-down", backgroundColor: "#1e9cbb"
 		}
-		standardTile("heatUp", "device.heatingSetpoint", inactiveLabel: false, decoration: "flat") {
-			state "heat", label:'Heat +', action:"heatUp"
+		standardTile("heatUp", "device.heatingSetpoint", inactiveLabel: false, decoration: "flat", height: 1, width: 1) {
+			state "heat", label:'Up', action:"heatUp", icon: "st.thermostat.thermostat-up", backgroundColor:"#d04e00"
 		}
-		standardTile("heatDown", "device.heatingSetpoint", inactiveLabel: false, decoration: "flat") {
-			state "heat", label:'Heat -', action:"heatDown"
+		standardTile("heatDown", "device.heatingSetpoint", inactiveLabel: false, decoration: "flat", height: 1, width: 1) {
+			state "heat", label:'Dn', action:"heatDown", icon: "st.thermostat.thermostat-down", backgroundColor: "#1e9cbb"
 		}
+        standardTile("operatingState", "device.thermostatOperatingState", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+			// state "operatingState", label:'${currentValue}', unit:""
+            // state "cooling", label:'', icon:"st.thermostat.cooling"
+            state "cooling", label:'', icon:"st.thermostat.cooling"
+            state "heating", label:'', icon:"st.thermostat.heating"
+            state "idle", label:'${currentValue}', icon:""
+            state "fan only", label:'${currentValue}', icon:""
+            state "pending heat", label:'', icon:"st.thermostat.heating"
+            state "pending cool", label:'', icon:"st.thermostat.cooling"
+        }
+        valueTile("blank", "device.humidity", inactiveLabel: true, height: 2, width: 3) {
+        	state "null", label:'', unit:""
+        }
+        
 
 		main "temperature"
 		// details(["temperature", "mode", "fanMode", "heatSliderControl", "heatingSetpoint", "coolSliderControl", "coolingSetpoint", "refresh", "humidity", "battery"])
 		// details(["temperature", "mode", "fanMode", "coolDown", "coolUp", "coolingSetpoint", "heatDown", "heatUp", "heatingSetpoint", "refresh", "humidity", "battery", "heatSliderControl", "heatingSetpoint", "coolSliderControl", "coolingSetpoint"])
-		details(["temperature", "mode", "fanMode", "coolDown", "coolUp", "coolingSetpoint", "heatDown", "heatUp", "heatingSetpoint", "refresh", "humidity", "battery"])
+		details(["temperature",
+            "battery",
+            "humidity",
+        	"operatingState",
+            "mode",
+            "fanMode",
+            "coolingSetpoint",
+            "coolUp",
+            "heatingSetpoint",
+            "heatUp",
+            "coolDown",
+            "heatDown",
+            "refresh"
+            ])
 	}
 }
 
@@ -404,7 +431,7 @@ def heatUp() {
 	sendEvent(name:"heatingSetpoint", value: value)
 	// evaluate(device.currentValue("temperature"), device.currentValue("heatingSetpoint"), value)
 	if(value>32 && value<212)
-		quickSetCool(value);
+		quickSetHeat(value);
 }
 
 def heatDown() {
@@ -413,7 +440,7 @@ def heatDown() {
 	sendEvent(name:"heatingSetpoint", value: value)
 	// evaluate(device.currentValue("temperature"), device.currentValue("heatingSetpoint"), value)
 	if(value>32 && value<212)
-		quickSetCool(value);
+		quickSetHeat(value);
 }
 
 def quickSetHeat(degrees) {
