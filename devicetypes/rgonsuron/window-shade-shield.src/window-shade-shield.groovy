@@ -19,8 +19,6 @@ metadata {
 	// UI tile definitions
 	tiles(scale: 2) {
 		standardTile("switch", "device.switch", width: 6, height: 4, canChangeIcon: true, canChangeBackground: true) {
-			// state "on", label: '${name}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-			// state "off", label: '${name}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
 			state "on", label: 'opened', action: "switch.off", icon: "st.doors.garage.garage-open", backgroundColor: "#79b821"
 			state "off", label: 'closed', action: "switch.on", icon: "st.doors.garage.garage-closed", backgroundColor: "#ffffff"
             state "opening", label: '${name}', icon: "st.doors.garage.garage-opening", backgroundColor: "#b9b821"
@@ -60,12 +58,8 @@ def parse(String description) {
 }
 
 // Commands sent to the device
-def on() {
-	zigbee.smartShield(text: "on").format()
-}
-def off() {
-	zigbee.smartShield(text: "off").format()
-}
+def on() {	zigbee.smartShield(text: "on").format() }
+def off() {	zigbee.smartShield(text: "off").format() }
 
 def bump1open() { zigbee.smartShield(text: "bump1open").format() }
 def bump1close() { zigbee.smartShield(text: "bump1close").format() }

@@ -55,9 +55,11 @@ metadata {
 		reply "2502": "command: 2503, payload: FF"
 	}
 
-	tiles(scale: 2) {
-		standardTile("temperature", "device.temperature", width: 4, height: 4) {
-			state("temperature", label:'${currentValue}°', icon:"st.Weather.weather2",
+	tiles(scale: 2)
+    {
+    	/*
+		standardTile("temperatureColor", "device.temperature", width: 2, height: 2) {
+			state("temperature", label:'Now ${currentValue}°',
 				backgroundColors:[
 					[value: 64, color: "#153591"],
 					[value: 66, color: "#1e9cbb"],
@@ -69,6 +71,11 @@ metadata {
 				]
 			)
 		}
+        */
+        valueTile("temperature", "device.temperature", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+			state "temperature", label:'${currentValue}°', unit:""
+		}
+        
 		standardTile("mode", "device.thermostatMode", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
 			state "off", label:'Mode: ${name}', action:"switchMode", nextState:"to_heat"
 			state "heat", label:'Mode: ${name}', icon: "st.custom.wuk.clear", action:"switchMode", nextState:"to_cool"
@@ -117,9 +124,9 @@ metadata {
 		standardTile("heatDown", "device.heatingSetpoint", inactiveLabel: false, decoration: "flat", height: 1, width: 1) {
 			state "heat", label:'Dn', action:"heatDown", icon: "st.thermostat.thermostat-down", backgroundColor: "#1e9cbb"
 		}
-        standardTile("operatingState", "device.thermostatOperatingState", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
+        
+        valueTile("operatingState", "device.thermostatOperatingState", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
 			// state "operatingState", label:'${currentValue}', unit:""
-            // state "cooling", label:'', icon:"st.thermostat.cooling"
             state "cooling", label:'', icon:"st.thermostat.cooling"
             state "heating", label:'', icon:"st.thermostat.heating"
             state "idle", label:'${currentValue}', icon:""
@@ -127,20 +134,17 @@ metadata {
             state "pending heat", label:'', icon:"st.thermostat.heating"
             state "pending cool", label:'', icon:"st.thermostat.cooling"
         }
-        valueTile("blank", "device.humidity", inactiveLabel: true, height: 2, width: 3) {
+
+		valueTile("blank", "device.humidity", inactiveLabel: true, height: 2, width: 3) {
         	state "null", label:'', unit:""
         }
         
 
 		main "temperature"
-		// details(["temperature", "mode", "fanMode", "heatSliderControl", "heatingSetpoint", "coolSliderControl", "coolingSetpoint", "refresh", "humidity", "battery"])
-		// details(["temperature", "mode", "fanMode", "coolDown", "coolUp", "coolingSetpoint", "heatDown", "heatUp", "heatingSetpoint", "refresh", "humidity", "battery", "heatSliderControl", "heatingSetpoint", "coolSliderControl", "coolingSetpoint"])
-		details(["temperature",
-            "battery",
-            "humidity",
-        	"operatingState",
-            "mode",
-            "fanMode",
+        
+		details([
+        	"humidity", "temperature", "battery", 
+        	"operatingState", "mode", "fanMode",
             "coolingSetpoint",
             "coolUp",
             "heatingSetpoint",
