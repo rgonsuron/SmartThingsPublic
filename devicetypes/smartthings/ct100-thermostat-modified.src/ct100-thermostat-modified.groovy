@@ -127,8 +127,8 @@ metadata {
         
         valueTile("operatingState", "device.thermostatOperatingState", inactiveLabel: false, decoration: "flat", height: 2, width: 2) {
 			// state "operatingState", label:'${currentValue}', unit:""
-            state "cooling", label:'', icon:"st.thermostat.cooling"
-            state "heating", label:'', icon:"st.thermostat.heating"
+            state "cooling", label:'${currentValue}', icon:"st.thermostat.cooling"
+            state "heating", label:'${currentValue}', icon:"st.thermostat.heating"
             state "idle", label:'${currentValue}', icon:""
             state "fan only", label:'${currentValue}', icon:""
             state "pending heat", label:'', icon:"st.thermostat.heating"
